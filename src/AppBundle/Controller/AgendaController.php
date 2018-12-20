@@ -20,6 +20,7 @@ class AgendaController extends Controller
             ->add('endDate', DateType::class, array('attr' => array('class' => 'form-control'), 'widget' => 'single_text'))
             ->add('search', SubmitType::class, array('attr' => array('class' => 'btn btn-info', 'style' => 'margin-top: 30px'), 'label' => 'search'))
             ->getForm();
+
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()){

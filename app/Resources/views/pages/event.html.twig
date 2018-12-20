@@ -1,0 +1,33 @@
+{{ include('pages/inc/header.html.twig') }}
+<div class="container">
+    <div class="row" style="display: flex; justify-content: flex-end">
+        <a href="{{ absolute_url(asset('')) }}app_dev.php/event/create" class="btn btn-primary" style="margin-bottom: 20px;">Create event</a>
+    </div>
+    <h3>List of events</h3>
+
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">Note</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.date|date('Y-m-d H:i:s') }}</td>
+                <td>{{ event.note }}</td>
+                <td>
+                    <a href="{{ absolute_url(asset('')) }}app_dev.php/event/update/{{ event.id }}" class="btn btn-outline-warning btn-sm">Edit</a>
+                    <a href="{{ absolute_url(asset('')) }}app_dev.php/event/delete/{{ event.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{{ include('pages/inc/footer.html.twig') }}

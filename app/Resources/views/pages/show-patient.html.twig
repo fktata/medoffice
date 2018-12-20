@@ -1,0 +1,25 @@
+{{ include('pages/inc/header.html.twig') }}
+<div class="container">
+    <div class="row" style="display: flex; justify-content: flex-end">
+        <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/" class="btn btn-primary"
+           style="margin-bottom: 20px;">Back</a>
+    </div>
+    <div class="card mb-3">
+        <h3 class="card-header">{{ patient.name }}</h3>
+        <div class="card-body">
+            <h5 class="card-title">{{ patient.email }}</h5>
+            <h6 class="card-subtitle text-muted">{{ patient.phone }}</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Civility : {{ patient.civility }}</li>
+            <li class="list-group-item">Birthday : {{ patient.birth|date("m/d/Y") }}</li>
+            <li class="list-group-item">Adress : {{ patient.adress }}</li>
+            <li class="list-group-item">Profession : {{ patient.profession }}</li>
+            <li class="list-group-item">Notes : {{ patient.notes }}</li>
+        </ul>
+        <div class="card-footer text-muted">
+            id : {{ patient.id }}
+        </div>
+    </div>
+</div>
+{{ include('pages/inc/footer.html.twig') }}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.css')) }}"/>
+        <style>
+            .bg-body{
+                background-image: url({{ asset('images/medicalWP.jpg') }});
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+        </style>
+    </head>
+    <body class="bg-body">
+        <div class="container">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ logout_path() }}" class="btn btn-outline-danger">Logout</a>
+            {% endif %}
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

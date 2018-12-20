@@ -1,0 +1,40 @@
+{{ include('pages/inc/header.html.twig') }}
+<div class="container">
+    <div class="row" style="display: flex; justify-content: flex-end">
+        <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/create" class="btn btn-primary" style="margin-bottom: 20px;">Create patient</a>
+    </div>
+    <h3>List of patients</h3>
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Civility</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.civility }}</td>
+                <td>{{ patient.email }}</td>
+                <td>{{ patient.phone }}</td>
+                <td>
+                    <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/show/{{ patient.id }}"
+                       class="btn btn-outline-success btn-sm">View</a>
+                    <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/update/{{ patient.id }}"
+                       class="btn btn-outline-warning btn-sm">Edit</a>
+                    <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/delete/{{ patient.id }}"
+                       class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{{ include('pages/inc/footer.html.twig') }}
+

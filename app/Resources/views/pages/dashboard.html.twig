@@ -1,0 +1,117 @@
+{{ include('pages/inc/header.html.twig') }}
+<script type="text/javascript">
+    function myFunction(id) {
+        var form = document.getElementById(id);
+        form.submit();
+    };
+</script>
+<div class="container">
+    <h3>Today</h3>
+    <br><br>
+
+    <div class="row">
+        <div class="col-4">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Number of person in waiting room
+                    <span class="badge badge-primary badge-pill">{{ data.waiting }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Number of consultation completed
+                    <span class="badge badge-primary badge-pill">{{ data.completed }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Number of patients who have not yet arrived
+                    <span class="badge badge-primary badge-pill">{{ data.upcoming }}</span>
+                </li>
+            </ul>
+            <br>
+            {% if data.delayType == 'delay' %}
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Delay : {{ data.delay }}</div>
+                </div>
+            {% elseif data.delayType == 'win' %}
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Wined time : {{ data.delay }}</div>
+                </div>
+            {% endif %}
+            <br>
+            <div class="card border-primary mb-3">
+                <div class="card-header">List of patients in the waiting room</div>
+                <div class="card-body">
+                    {% for wrdv in data.waitingRdv %}
+                        <h4 class="card-title">{{ wrdv.patientname }}</h4>
+                        <p class="card-text">
+                        <div> Waiting time :
+                            <span>{{ wrdv.waiting_time|date('H:i:s') }}</span>
+                        </div>
+                        </p>
+                    {% else %}
+                        <p class="card-text">Waiting room is empty</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <table id="example2" class="display" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Patient</th>
+                    <th scope="col">Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for rdv in data.rdvs %}
+                    {% if rdv.status == 'completed' %}
+                        <tr class="table-success">
+                    {% elseif rdv.status == 'waiting' %}
+                        <tr class="table-warning">
+                    {% elseif rdv.status == 'current' %}
+                        <tr class="table-primary">
+                    {% elseif rdv.status == 'outside' %}
+                        <tr class="table-dark">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                    <td>{{ rdv.date|date('H:i:s') }}</td>
+                    <td>{{ rdv.patient.name }}</td>
+                    <td>
+                        <form id="{{ rdv.id }}" action="{{ path('change_type') }}" method="POST">
+                            <div class="form-group">
+                                <input name="rdv" type="hidden" value="{{ rdv.id }}">
+                                <select class="form-control" name="status" onchange="myFunction({{ rdv.id }})">
+                                    {% if rdv.status == 'completed' %}
+                                        <option value="completed" selected>completed</option>
+                                        <option value="waiting">waiting</option>
+                                        <option value="current">current</option>
+                                        <option value="outside">outside</option>
+                                    {% elseif rdv.status == 'waiting' %}
+                                        <option value="completed">completed</option>
+                                        <option value="waiting" selected>waiting</option>
+                                        <option value="current">current</option>
+                                        <option value="outside">outside</option>
+                                    {% elseif rdv.status == 'current' %}
+                                        <option value="completed">completed</option>
+                                        <option value="waiting">waiting</option>
+                                        <option value="current" selected>current</option>
+                                        <option value="outside">outside</option>
+                                    {% elseif rdv.status == 'outside' %}
+                                        <option value="completed">completed</option>
+                                        <option value="waiting">waiting</option>
+                                        <option value="current">current</option>
+                                        <option value="outside" selected>outside</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </form>
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{{ include('pages/inc/footer.html.twig') }}

@@ -1,0 +1,11 @@
+{{ include('pages/inc/header.html.twig') }}
+<div class="container">
+    <div class="row" style="display: flex; justify-content: flex-end">
+        <a href="{{ absolute_url(asset('')) }}app_dev.php/patient/" class="btn btn-primary">Back</a>
+    </div>
+    <h3>Update a patient</h3>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>
+{{ include('pages/inc/footer.html.twig') }}

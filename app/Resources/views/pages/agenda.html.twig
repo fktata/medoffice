@@ -1,0 +1,142 @@
+{{ include('pages/inc/header.html.twig') }}
+<style>
+    .agenda {
+    }
+
+    /* Dates */
+    .agenda .agenda-date {
+        width: 170px;
+    }
+
+    .agenda .agenda-date .dayofmonth {
+        width: 40px;
+        font-size: 36px;
+        line-height: 36px;
+        float: left;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    .agenda .agenda-date .shortdate {
+        font-size: 0.75em;
+    }
+
+    /* Times */
+    .agenda .agenda-time {
+        width: 140px;
+    }
+
+    /* Events */
+    .agenda .agenda-events {
+    }
+
+    .agenda .agenda-events .agenda-event {
+    }
+
+    @media (max-width: 767px) {
+
+    }
+
+    #form div:first-child {
+        margin-right: 10px;
+    }
+
+    #form div:nth-child(2) {
+        margin-right: 10px;
+    }
+</style>
+<div class="container">
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form, {attr: {'style': 'display: flex;float: right;'}}) }}
+        {{ form_end(form) }}
+
+        <br><br><br><br>
+
+        <div class="agenda">
+            <div class="table-responsive">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Event</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% set i = 0 %}
+                    {% set b = 1 %}
+                    {% for task in tasks %}
+                        {% set occ = 0 %}
+                        {% for taskd in tasks %}
+                            {% if taskd.date|date('Y-m-d')==task.date|date('Y-m-d') %}
+                                {% set occ = occ + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if i>0 and currentDate != task.date|date('Y-m-d') %}
+                            {% set b = 1 %}
+                        {% endif %}
+
+                        {% if occ>1 %}
+                            <tr>
+                                {% if b ==1 %}
+                                    <td class="agenda-date" class="active" rowspan="{{ occ }}">
+                                        <div class="dayofmonth">{{ task.date|date('d') }}</div>
+                                        <div class="dayofweek">{{ task.date|date('l') }}</div>
+                                        <div class="shortdate text-muted">{{ task.date|date('m-Y') }}</div>
+                                    </td>
+                                    {% set b = 0 %}
+                                {% endif %}
+                                <td class="agenda-time">
+                                    {{ task.date|date('H:i:s') }}
+                                </td>
+                                <td class="agenda-time">
+                                    {{ task.type }}
+                                </td>
+                                <td class="agenda-events">
+                                    <div class="agenda-event">
+                                        {{ task.note }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td class="agenda-date" class="active" rowspan="1">
+                                    <div class="dayofmonth">{{ task.date|date('d') }}</div>
+                                    <div class="dayofweek">{{ task.date|date('l') }}</div>
+                                    <div class="shortdate text-muted">{{ task.date|date('m-Y') }}</div>
+                                </td>
+                                <td class="agenda-time">
+                                    {{ task.date|date('H:i:s') }}
+                                </td>
+                                <td class="agenda-time">
+                                    {{ task.type }}
+                                </td>
+                                <td class="agenda-events">
+                                    <div class="agenda-event">
+                                        <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
+                                        {{ task.note }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+
+                        {% set currentDate = task.date|date('Y-m-d') %}
+                        {% set i = i + 1 %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No records found !</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{ include('pages/inc/footer.html.twig') }}

@@ -1,0 +1,36 @@
+{{ include('pages/inc/header.html.twig') }}
+<div class="container">
+    <div class="row" style="display: flex; justify-content: flex-end">
+        <a href="{{ absolute_url(asset('')) }}app_dev.php/rdv/" class="btn btn-primary" style="margin-bottom: 20px;">Back</a>
+    </div>
+    <div class="card mb-3">
+        <h3 class="card-header">{{ rdv.date|date('Y-m-d H:i:s') }}</h3>
+        <div class="card-body">
+            <h4 class="card-title">Patient informations</h4>
+            <hr>
+            <h6 class="card-subtitle text-muted">Name :{{ rdv.patient.name }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">email :{{ rdv.patient.email }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Phone :{{ rdv.patient.phone }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Civility :{{ rdv.patient.civility }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Birthday : {{ rdv.patient.birth|date("m/d/Y") }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Adress :{{ rdv.patient.adress }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Profession :{{ rdv.patient.profession }}</h6>
+            <hr>
+            <h6 class="card-subtitle text-muted">Notes :{{ rdv.patient.notes }}</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">RDV Status : {{ rdv.status }}</li>
+            <li class="list-group-item">RDV Type : {{ rdv.type }}</li>
+        </ul>
+        <div class="card-footer text-muted">
+            id : {{ rdv.id }}
+        </div>
+    </div>
+</div>
+{{ include('pages/inc/footer.html.twig') }}
